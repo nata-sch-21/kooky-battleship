@@ -1,21 +1,11 @@
-import React from 'react';
 import { connect } from 'react-redux';
-import { Button, Text } from 'react-native';
-import styled from 'styled-components/native'
 
-const StyledButton = styled.Button`
-	border-radius: 3;
-	border-color: #fff;
-`;
-
-const AppButton = ({ onPress, title = '' }) => <StyledButton onPress={onPress} title={title} />;
-
+import Button from './Button';
 
 const mapStateToProps = () => ({});
 
 const mapDispatchToProps = (dispatch, props) => ({
-	onPress: () => props.action(),
+  onPress: () => dispatch(props.onPress),
 });
 
-
-export default connect(mapStateToProps, mapDispatchToProps)(AppButton);
+export default connect(mapStateToProps, mapDispatchToProps)(Button);

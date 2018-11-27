@@ -5,5 +5,5 @@ const middlewares = [];
 const createStoreWithMiddleware = applyMiddleware(...middlewares)(createStore);
 
 export default function configureStore(initialState) {
-	return createStoreWithMiddleware(combinedReducers, initialState);
+  return createStoreWithMiddleware(combinedReducers, initialState);
 }

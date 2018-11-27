@@ -1,26 +1,49 @@
 import React from 'react';
-// import { string, shape, arrayOf, object } from 'prop-types';
-import styled from 'styled-components/native'
+import { compose, withStateHandlers } from 'recompose';
+import { func, string } from 'prop-types';
+import styled from 'styled-components/native';
+import { View } from 'react-native';
 
-import { Text, ImageBackground } from 'react-native';
+import Button from '../Button';
+import Input from '../Input';
+import { setPlayerName } from '../../actions/player';
 
-import image from '../../../assets/images/navy-ships-clipart-background-695348-1448208.jpg'
-
-import Button from '../Button'
-
-const StyledImageBackground = styled.ImageBackground`
-	width: 100%;
+const StyledView = styled(View)`
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-end;
+	align-items: stretch;
+	width: auto;
 	height: 100%;
 `;
 
-const Home = () => (
-	<StyledImageBackground source={image}>
-		<Button action={() => {console.log('onPress button')}} title='Introduce yourself, kooky Admiral'/>
-	</StyledImageBackground>
+const Home = ({ playerName, onChangePlayerName }) => (
+  <StyledView>
+    <Input onChangeText={onChangePlayerName} placeholder="Name" value={playerName} />
+    <Button onPress={setPlayerName({ playerName })} disabled={!playerName}>
+      Start the game
+    </Button>
+  </StyledView>
 );
 
 Home.propTypes = {
-
+  onChangePlayerName: func.isRequired,
+  playerName: string,
 };
 
-export default Home;
+Home.defaultProps = {
+  playerName: '',
+};
+
+const EnhancedHome = compose(
+  withStateHandlers(
+    { playerName: '' },
+    {
+      onChangePlayerName: () => value => ({
+        playerName: value,
+      }),
+    },
+  ),
+)(Home);
+
+export default EnhancedHome;

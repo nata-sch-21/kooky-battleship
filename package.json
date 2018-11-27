@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
-    "lint": "eslint *.js **/*.js",
+    "lint": "eslint ./src",
     "lint:fix": "npm run lint -- --fix",
     "test": "jest",
     "test:watch": "jest --watch",
@@ -14,8 +14,8 @@
     "prop-types": "^15.6.2",
     "react": "16.6.1",
     "react-native": "0.57.5",
-    "react-native-gesture-handler": "^1.0.9",
-    "react-navigation": "^3.0.0",
+    "react-native-gesture-handler": "^1.0.10",
+    "react-navigation": "^3.0.1",
     "react-redux": "^5.1.1",
     "recompose": "^0.30.0",
     "redux": "^4.0.1",
@@ -26,6 +26,7 @@
   "devDependencies": {
     "babel-eslint": "^10.0.1",
     "babel-jest": "23.6.0",
+    "babel-plugin-styled-components": "^1.9.0",
     "eslint": "^5.9.0",
     "eslint-config-airbnb": "^17.1.0",
     "eslint-plugin-import": "^2.14.0",

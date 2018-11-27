@@ -1,12 +1,12 @@
 import { handleActions } from 'redux-actions';
 import { createStructuredSelector } from 'reselect';
 
-// import { FETCH_DICTIONARIES } from '../../constants';
+import { SET_PLAYER_NAME } from '../actions/player';
 
 export const initialState = {
-	player: {
-		name: null
-	},
+  player: {
+    name: null,
+  },
 };
 
 const reducer = 'player';
@@ -18,14 +18,15 @@ const playerName = state => (getLocalState(state).name);
 
 
 export const playerSelector = createStructuredSelector({
-	playerName
+  playerName,
 });
 
 // reducer
 export default handleActions({
-	// [FETCH_DICTIONARIES]: (state, { payload }) => ({
-	// 	...state,
-	// 	...payload.data,
-	// 	response: { ...payload.response },
-	// }),
+  [SET_PLAYER_NAME]: (state, { payload }) => ({
+    ...state,
+    player: {
+      name: payload.playerName,
+    },
+  }),
 }, initialState);

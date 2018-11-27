@@ -11,7 +11,6 @@ module.exports = {
     "import/no-named-as-default": 0,
     "import/no-extraneous-dependencies": 0,
     "no-underscore-dangle": 0,
-		'no-use-before-define': 'off',
     "react/jsx-filename-extension": 0,
     "jsx-a11y/anchor-is-valid": [ "error", {
       "components": [ "Link" ],
@@ -20,6 +19,7 @@ module.exports = {
     }],
     "jsx-a11y/no-static-element-interactions": 0,
     "jsx-a11y/click-events-have-key-events": 0,
+    "no-tabs": 0,
   },
   "globals": {
     "shallow": true,
@@ -28,6 +28,6 @@ module.exports = {
     "deepFreeze": true,
   },
   "extends": [
-    "airbnb"
+    "airbnb",
   ]
 };
