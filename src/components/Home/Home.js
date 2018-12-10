@@ -1,34 +1,39 @@
 import React from 'react';
 import { compose, withStateHandlers } from 'recompose';
-import { func, string } from 'prop-types';
-import styled from 'styled-components/native';
-import { View } from 'react-native';
+import {func, shape, string} from 'prop-types';
+import { ScrollView } from 'react-native';
 
 import Button from '../Button';
 import Input from '../Input';
 import { setPlayerName } from '../../actions/player';
 
-const StyledView = styled(View)`
-	display: flex;
-	flex-direction: column;
-	justify-content: flex-end;
-	align-items: stretch;
-	width: auto;
-	height: 100%;
-`;
+// StyledView is used because TextInput has issues with blurring
+const Home = ({ playerName, onChangePlayerName, navigation }) => {
+  const onStartGame = () => {
+    console.log('lsdksldskldks');
+    navigation.navigate('PlayerBattleField');
+    return setPlayerName({ playerName });
+  };
 
-const Home = ({ playerName, onChangePlayerName }) => (
-  <StyledView>
-    <Input onChangeText={onChangePlayerName} placeholder="Name" value={playerName} />
-    <Button onPress={setPlayerName({ playerName })} disabled={!playerName}>
-      Start the game
-    </Button>
-  </StyledView>
-);
+  return (
+    <ScrollView
+      scrollEnabled={false}
+      contentContainerStyle={{ flex: 1, justifyContent: 'flex-end', alignItems: 'stretch' }}
+    >
+      <Input onChangeText={onChangePlayerName} placeholder="Name" value={playerName} />
+      <Button onPress={onStartGame} disabled={!playerName}>
+        Start the game
+      </Button>
+    </ScrollView>
+  );
+};
 
 Home.propTypes = {
   onChangePlayerName: func.isRequired,
   playerName: string,
+  navigation: shape({
+    navigate: func.isRequired,
+  }).isRequired,
 };
 
 Home.defaultProps = {

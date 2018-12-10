@@ -2,15 +2,15 @@ import React, { Component } from 'react';
 import { nest } from 'recompose';
 import { shape, func } from 'prop-types';
 
-import Home from './Home';
+import ShipsPlacement from './ShipsPlacement';
 import Wrapper from '../Wrapper';
 
-const Wrapped = nest(Wrapper, Home);
+const Wrapped = nest(Wrapper, ShipsPlacement);
 
 // should be wrapped by class to use HMR
 export default class extends Component {
   static navigationOptions = {
-    title: 'Welcome to Kooky Battleship',
+    title: 'Ships',
     headerTitleStyle: {
       width: '90%',
       textAlign: 'center',

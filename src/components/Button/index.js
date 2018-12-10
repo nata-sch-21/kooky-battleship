@@ -4,8 +4,12 @@ import Button from './Button';
 
 const mapStateToProps = () => ({});
 
-const mapDispatchToProps = (dispatch, props) => ({
-  onPress: () => dispatch(props.onPress),
-});
+const mapDispatchToProps = (dispatch, { onPress, enableDispatch = true }) => {
+  if (enableDispatch) {
+    return { onPress: () => dispatch(onPress()) };
+  }
+
+  return { onPress };
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Button);

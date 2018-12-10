@@ -1,27 +1,27 @@
 import { handleActions } from 'redux-actions';
 import { createStructuredSelector } from 'reselect';
 
-import { SET_PLAYER_NAME } from '../actions/player';
+import { SET_CONTENDER_DATA } from '../actions/contender';
 
 export const initialState = {
   name: null,
 };
 
-const reducer = 'player';
+const reducer = 'contender';
 
 const getLocalState = state => state[reducer];
 
 // selectors
-const playerName = state => (getLocalState(state).name);
+const contenderName = state => (getLocalState(state).name);
 
 
-export const playerSelector = createStructuredSelector({
-  playerName,
+export const contenderSelector = createStructuredSelector({
+  contenderName,
 });
 
 // reducer
 export default handleActions({
-  [SET_PLAYER_NAME]: (state, { payload }) => ({
+  [SET_CONTENDER_DATA]: (state, { payload }) => ({
     ...state,
     name: payload.playerName,
   }),

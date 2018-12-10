@@ -3,7 +3,7 @@ import { TouchableOpacity, Text } from 'react-native';
 import styled from 'styled-components/native';
 import { func, string, bool } from 'prop-types';
 
-import styles from '../../styles';
+import styles from '../../configs/styles';
 
 const StyledButton = styled(TouchableOpacity)`
 	display: flex;
@@ -15,6 +15,7 @@ const StyledButton = styled(TouchableOpacity)`
 	background-color: ${styles.colors.bgColor};
 	padding: 10px 15px;
 	margin: 10px;
+	height: 50px;
 `;
 
 const StyledText = styled(Text)`
@@ -22,7 +23,7 @@ const StyledText = styled(Text)`
 	font-size: 18;
 `;
 
-const Button = ({ onPress, children, disabled = false }) => (
+const Button = ({ onPress, children, disabled }) => (
   <StyledButton onPress={onPress} disabled={disabled}>
     <StyledText>
       {children}
@@ -33,7 +34,11 @@ const Button = ({ onPress, children, disabled = false }) => (
 Button.propTypes = {
   onPress: func.isRequired,
   children: string.isRequired,
-  disabled: bool.isRequired,
+  disabled: bool,
+};
+
+Button.defaultProps = {
+  disabled: false,
 };
 
 

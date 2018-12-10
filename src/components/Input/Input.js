@@ -2,9 +2,8 @@ import React, { Component } from 'react';
 import { TextInput } from 'react-native';
 import { func, string, bool } from 'prop-types';
 import styled from 'styled-components/native';
-import { renderComponent } from 'recompose';
 
-import styles from '../../styles';
+import styles from '../../configs/styles';
 
 const StyledTextInput = styled(TextInput)`
   display: flex;
