@@ -8,13 +8,13 @@ const Navigator = createStackNavigator({
   Home: { screen: HomeScreen },
   ShipsPlacement: { screen: ShipsPlacement },
 }, {
-  initialRouteName: 'ShipsPlacement',
+  initialRouteName: 'Home',
   defaultNavigationOptions: {
     headerStyle: {
-      backgroundColor: styles.colors.bgColor,
+      backgroundColor: styles.colors.navy,
       textAlign: 'center',
     },
-    headerTintColor: styles.colors.textColor,
+    headerTintColor: styles.colors.white,
   },
 });
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import { compose, withStateHandlers } from 'recompose';
-import {func, shape, string} from 'prop-types';
+import { func, shape, string } from 'prop-types';
 import { ScrollView } from 'react-native';
 
 import Button from '../Button';
@@ -10,8 +10,7 @@ import { setPlayerName } from '../../actions/player';
 // StyledView is used because TextInput has issues with blurring
 const Home = ({ playerName, onChangePlayerName, navigation }) => {
   const onStartGame = () => {
-    console.log('lsdksldskldks');
-    navigation.navigate('PlayerBattleField');
+    navigation.navigate('ShipsPlacement');
     return setPlayerName({ playerName });
   };
 

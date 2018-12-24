@@ -1,41 +1,52 @@
-import React from 'react';
-import { View, Text } from 'react-native';
+import React, { Component } from 'react';
+import { View } from 'react-native';
 import styled from 'styled-components/native';
-import { func, string, bool } from 'prop-types';
+import { string, shape } from 'prop-types';
 
-// import styles from '../../configs/styles';
+import { getRowHeight } from '../../../services/tools';
+import Cell from '../Cell';
+
+const rowHeight = getRowHeight();
 
 const StyledView = styled(View)`
-	display: flex;
-	justify-content: center;
-	align-items: center;
-
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  width: 100%;
+  height: ${rowHeight}px;
 `;
 
-const StyledText = styled(Text)`
-	font-size: 18;
-`;
-
-const Row = ({ battlefield }) => {
-  console.log(battlefield);
-  return (
-    <StyledView>
-      <StyledText>
-        sdfef
-      </StyledText>
-    </StyledView>
-  )
+const getCells = (row) => {
+  const keys = Object.keys(row);
+  return keys.map(key => <Cell key={key} status={row[key].status}>{row[key].content}</Cell>);
 };
 
-// Button.propTypes = {
-//   onPress: func.isRequired,
-//   children: string.isRequired,
-//   disabled: bool,
-// };
-//
-// Button.defaultProps = {
-//   disabled: false,
-// };
-//
+class Row extends Component {
+  render() {
+    const { yCoordinate, row } = this.props;
+    return (
+      <StyledView>
+        <Cell>
+          {yCoordinate}
+        </Cell>
+        {getCells(row)}
+      </StyledView>
+    );
+  }
+}
+
+Row.propTypes = {
+  yCoordinate: string,
+  row: shape({
+    status: string,
+    content: string,
+  }),
+};
+
+Row.defaultProps = {
+  yCoordinate: '',
+  row: {},
+};
+
 
 export default Row;

@@ -1,41 +1,64 @@
-import React from 'react';
-import { View, Text } from 'react-native';
+import React, { Component } from 'react';
+import { View } from 'react-native';
 import styled from 'styled-components/native';
-import { func, string, bool } from 'prop-types';
+import {
+  object, objectOf,
+} from 'prop-types';
 
-import styles from '../../configs/styles';
+import Row from './Row';
+
+import configs from '../../configs/game';
+import { getBattlefieldSize } from '../../services/tools';
+
+const battlefieldSize = getBattlefieldSize();
 
 const StyledView = styled(View)`
-	display: flex;
-	justify-content: center;
-	align-items: center;
-
+  display: flex;
+  background-color: #fff;
+  align-content: stretch;
+  margin-top: 3%;
+  height: ${battlefieldSize}px;
+  width: ${battlefieldSize}px;
 `;
 
-const StyledText = styled(Text)`
-	color: ${styles.colors.textColor};
-	font-size: 18;
-`;
+const getXAxis = () => {
+  const xAxis = {};
+  configs.battlefield.xAxis.forEach((value) => {
+    xAxis[value] = {
+      status: null,
+      content: value,
+    };
+  });
 
-const Battlefield = ({ battlefield }) => {
- return (
-   <StyledView>
-    <StyledText>
-      sdfef
-    </StyledText>
-  </StyledView>
- )
+  return xAxis;
 };
 
-// Button.propTypes = {
-//   onPress: func.isRequired,
-//   children: string.isRequired,
-//   disabled: bool,
-// };
-//
-// Button.defaultProps = {
-//   disabled: false,
-// };
-//
+class Battlefield extends Component {
+  render() {
+    const { battlefield } = this.props;
+    const yAxis = Object.keys(battlefield);
+
+    return (
+      <StyledView>
+        <Row
+          key={0}
+          row={getXAxis()}
+        />
+        {
+          yAxis.map(yCoordinate => (
+            <Row
+              key={yCoordinate}
+              row={battlefield[yCoordinate]}
+              yCoordinate={yCoordinate}
+            />))
+        }
+      </StyledView>
+    );
+  }
+}
+
+Battlefield.propTypes = {
+  battlefield: objectOf(object).isRequired,
+};
 
 export default Battlefield;

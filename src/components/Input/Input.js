@@ -9,11 +9,11 @@ const StyledTextInput = styled(TextInput)`
   display: flex;
   text-align: center;
   border-radius: ${styles.borderRadius};
-  border: 2px solid ${styles.colors.bgColor};
+  border: 2px solid ${styles.colors.navy};
   background-color: #fff;
   margin: 10px;
   font-size: 18;
-  color: ${styles.colors.bgColor};
+  color: ${styles.colors.navy};
 `;
 
 // class component is used to avoid HRM error
@@ -21,7 +21,7 @@ class Input extends Component { // eslint-disable-line
   render() {
     return (
       <StyledTextInput
-        placeholderTextColor={styles.colors.bgColor}
+        placeholderTextColor={styles.colors.navy}
         {...this.props} // Inherit any props passed to it; e.g., multiline, numberOfLines below
       />
     );

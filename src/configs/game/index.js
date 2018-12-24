@@ -1,4 +1,4 @@
-export default {
+const configs = {
   battlefield: {
     xAxis: ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'],
     yAxis: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
@@ -15,3 +15,5 @@ export default {
     CONTENDER: 'contender',
   },
 };
+
+export default configs;

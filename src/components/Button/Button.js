@@ -12,14 +12,14 @@ const StyledButton = styled(TouchableOpacity)`
 	border-radius: ${styles.borderRadius};
 	border: 2px solid #fff;
 	width: auto;
-	background-color: ${styles.colors.bgColor};
+	background-color: ${styles.colors.navy};
 	padding: 10px 15px;
 	margin: 10px;
 	height: 50px;
 `;
 
 const StyledText = styled(Text)`
-	color: ${styles.colors.textColor};
+	color: ${styles.colors.white};
 	font-size: 18;
 `;
 

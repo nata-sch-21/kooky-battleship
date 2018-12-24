@@ -12,6 +12,7 @@ module.exports = {
     "import/no-extraneous-dependencies": 0,
     "no-underscore-dangle": 0,
     "react/jsx-filename-extension": 0,
+    "react/prefer-stateless-function": 0,
     "jsx-a11y/anchor-is-valid": [ "error", {
       "components": [ "Link" ],
       "specialLink": [ "hrefLeft", "hrefRight", "to" ],

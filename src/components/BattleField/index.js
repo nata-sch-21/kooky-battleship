@@ -4,7 +4,7 @@ import { battlefieldSelector } from '../../reducers/battlefields';
 
 import BattleField from './BattleField';
 
-const mapStateToProps = (state, { playerType }) => battlefieldSelector(state, playerType);
+const mapStateToProps = (state, { playerType }) => ({ ...battlefieldSelector(state, playerType) });
 
 const mapDispatchToProps = () => ({});
 

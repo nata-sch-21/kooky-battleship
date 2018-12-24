@@ -12,7 +12,7 @@ export default class extends Component {
   static navigationOptions = {
     title: 'Ships',
     headerTitleStyle: {
-      width: '90%',
+      width: '68%',
       textAlign: 'center',
     },
   };
