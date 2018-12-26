@@ -8,7 +8,7 @@ const Navigator = createStackNavigator({
   Home: { screen: HomeScreen },
   ShipsPlacement: { screen: ShipsPlacement },
 }, {
-  initialRouteName: 'Home',
+  initialRouteName: 'ShipsPlacement',
   defaultNavigationOptions: {
     headerStyle: {
       backgroundColor: styles.colors.navy,

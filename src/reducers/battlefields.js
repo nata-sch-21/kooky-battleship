@@ -1,11 +1,11 @@
 import { handleActions } from 'redux-actions';
 import { createStructuredSelector } from 'reselect';
 
-import { generateEmptyBattleField } from '../services/tools';
+import BattlefieldService from '../services/BattlefieldService';
 
 export const initialState = {
   player: {
-    battlefield: generateEmptyBattleField(),
+    battlefield: BattlefieldService.getWithAutoplacedShips(),
     ships: null,
   },
   contender: {
