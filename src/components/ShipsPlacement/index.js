@@ -10,11 +10,7 @@ const Wrapped = nest(Wrapper, ShipsPlacement);
 // should be wrapped by class to use HMR
 export default class extends Component {
   static navigationOptions = {
-    title: 'Ships',
-    headerTitleStyle: {
-      width: '68%',
-      textAlign: 'center',
-    },
+    header: null,
   };
 
   static propTypes = {

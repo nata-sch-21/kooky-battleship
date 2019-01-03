@@ -1,10 +1,12 @@
 import { connect } from 'react-redux';
 
-import { battlefieldSelector } from '../../reducers/battlefields';
+import { battlefield } from '../../reducers/battlefields';
 
 import BattleField from './BattleField';
 
-const mapStateToProps = (state, { playerType }) => ({ ...battlefieldSelector(state, playerType) });
+const mapStateToProps = (state, { playerType }) => ({
+  battlefield: battlefield(state, playerType),
+});
 
 const mapDispatchToProps = () => ({});
 

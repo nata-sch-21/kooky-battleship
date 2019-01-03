@@ -20,11 +20,15 @@ const reducer = 'battlefields';
 const getLocalState = state => state[reducer];
 
 // selectors
-const battlefield = (state, playerType) => (getLocalState(state)[playerType].battlefield);
+export const battlefield = (state, playerType) => (getLocalState(state)[playerType].battlefield);
 
+const battlefields = state => ({
+  player: getLocalState(state).player.battlefield,
+  contender: getLocalState(state).contender.battlefield,
+});
 
 export const battlefieldSelector = createStructuredSelector({
-  battlefield,
+  battlefields,
 });
 
 // reducer

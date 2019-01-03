@@ -1,21 +1,23 @@
+import { connect } from 'react-redux';
 import React, { Component } from 'react';
-import { nest } from 'recompose';
 import { shape, func } from 'prop-types';
-import Orientation from 'react-native-orientation';
+import { nest } from 'recompose';
 
-import Home from './Home';
+import { battlefieldSelector } from '../../reducers/battlefields';
+
+import Battle from './Battle';
 import Wrapper from '../Wrapper';
 
-const Wrapped = nest(Wrapper, Home);
+const mapStateToProps = state => ({ ...battlefieldSelector(state).battlefields });
+
+const mapDispatchToProps = () => ({});
+
+const Wrapped = nest(Wrapper, connect(mapStateToProps, mapDispatchToProps)(Battle));
 
 // should be wrapped by class to use HMR
 export default class extends Component {
   static navigationOptions = {
-    title: 'Welcome to Kooky Battleship',
-    headerTitleStyle: {
-      width: '90%',
-      textAlign: 'center',
-    },
+    header: null,
   };
 
   static propTypes = {
@@ -23,10 +25,6 @@ export default class extends Component {
       navigate: func.isRequired,
     }).isRequired,
   };
-
-  componentWillMount(): void {
-    Orientation.lockToPortrait();
-  }
 
   render() {
     const { navigation } = this.props;

@@ -10,7 +10,6 @@ import styles from '../../configs/styles';
 import game from '../../configs/game';
 
 import { playerAutoplacementShips } from '../../actions/battlefields';
-import {setPlayerName} from "../../actions/player";
 
 const ContainerView = styled(View)`
 	display: flex;
