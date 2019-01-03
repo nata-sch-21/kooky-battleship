@@ -2,6 +2,7 @@ import { handleActions } from 'redux-actions';
 import { createStructuredSelector } from 'reselect';
 
 import BattlefieldService from '../services/BattlefieldService';
+import { PLAYER_AUTOPLACEMENT_SHIPS } from '../actions/battlefields';
 
 export const initialState = {
   player: {
@@ -28,5 +29,11 @@ export const battlefieldSelector = createStructuredSelector({
 
 // reducer
 export default handleActions({
-
+  [PLAYER_AUTOPLACEMENT_SHIPS]: (state, { payload }) => ({
+    ...state,
+    player: {
+      ...state.player,
+      battlefield: BattlefieldService.getWithAutoplacedShips(),
+    },
+  }),
 }, initialState);

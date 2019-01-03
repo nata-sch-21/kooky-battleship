@@ -9,6 +9,9 @@ import BattleField from '../BattleField';
 import styles from '../../configs/styles';
 import game from '../../configs/game';
 
+import { playerAutoplacementShips } from '../../actions/battlefields';
+import {setPlayerName} from "../../actions/player";
+
 const ContainerView = styled(View)`
 	display: flex;
 	align-self: center;
@@ -34,18 +37,27 @@ const BattlefieldContainer = styled(View)`
   flex-direction: row;
 `;
 
-const ShipsPlacement = props => (
-  <ContainerView>
-    <BattlefieldContainer>
-      <BattleField playerType={game.playerTypes.PLAYER} {...props} />
-    </BattlefieldContainer>
-    <ButtonContainerView>
-      <Button enableDispatch={false} onPress={() => alert('Auto-placement')}>
-        Auto-placement
-      </Button>
-    </ButtonContainerView>
-  </ContainerView>
-);
+const ShipsPlacement = (props) => {
+  const startGame = () => {
+    props.navigation.navigate('Battle');
+  };
+
+  return (
+    <ContainerView>
+      <BattlefieldContainer>
+        <BattleField playerType={game.playerTypes.PLAYER} {...props} />
+      </BattlefieldContainer>
+      <ButtonContainerView>
+        <Button onPress={playerAutoplacementShips}>
+          Auto-placement
+        </Button>
+        <Button enableDispatch={false} onPress={startGame}>
+          Battle
+        </Button>
+      </ButtonContainerView>
+    </ContainerView>
+  );
+};
 
 ShipsPlacement.propTypes = {
   navigation: shape({

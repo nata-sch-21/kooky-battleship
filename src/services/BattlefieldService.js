@@ -1,3 +1,5 @@
+import { shuffle } from 'underscore';
+
 import configs from '../configs/game';
 
 const {
@@ -7,33 +9,12 @@ const {
 
 const getRandomArrayItem = items => items[Math.floor(Math.random() * items.length)];
 
-const getShiftedArray = (items, start) => {
-  const finish = start === 0 ? items.length - 1 : start - 1;
-  const shifted = [];
-
-  for (let i = start; i <= items.length - 1; i++) {
-    shifted.push(items[i]);
-  }
-
-  if (start === 0) {
-    return shifted;
-  }
-
-  for (let i = 0; i <= finish; i++) {
-    shifted.push(items[i]);
-  }
-
-  return shifted;
-};
-
 class BattlefieldService {
-  constructor() {
+  createEmpty() {
     this.excludedCells = [];
     this.placedShips = {};
     this.battlefield = {};
-  }
 
-  createEmpty() {
     const { EMPTY } = cellStatuses;
 
     yAxis.forEach((yCoordinate) => {
@@ -51,124 +32,92 @@ class BattlefieldService {
   getWithAutoplacedShips() {
     this.createEmpty();
 
-    const yStart = getRandomArrayItem(Object.keys(yAxis));
-    const xStart = getRandomArrayItem(Object.keys(yAxis));
-
-    const shiftedYAxis = getShiftedArray(yAxis, yStart);
-    const shiftedXAxis = getShiftedArray(xAxis, xStart);
+    this.placementShip(xAxis, yAxis, ships[0].cellsNumber);
 
     ships.forEach((ship) => {
       const key = getRandomArrayItem([0, 1]);
 
       if (key === 1) {
-        this.placeOnX(shiftedYAxis, shiftedXAxis, ship);
+        this.placementShip(xAxis, yAxis, ship);
       } else {
-        this.placeOnY(shiftedYAxis, shiftedXAxis, ship);
+        this.placementShip(yAxis, xAxis, ship);
       }
     });
 
     return this.battlefield;
   }
 
-  placeOnX(shiftedYAxis, xAxisShifted, ship) {
-    const shipSize = ship.cellsNumber;
+  placementShip(axisOne, axisTwo, shopToPlace) {
+    const shipSize = shopToPlace.cellsNumber;
+    const shuffledAxisOne = shuffle(axisOne);
+    const shuffledAxisTwo = shuffle(axisTwo);
 
-    for (const y of shiftedYAxis) {
-      let shipX = null;
-      for (const x of xAxisShifted) {
-        shipX = this.placeXShip(y, x, shipSize);
+    let ship  ;
 
-        if (!shipX) continue;
+    for (const a of shuffledAxisOne) {
+      ship = null;
 
-        for (const xCoordinate of shipX) {
-          this.battlefield[y][xCoordinate].status = cellStatuses.ALIVE;
-        }
+      const indexOne = axisOne.indexOf(a);
+      if (indexOne + shipSize > axisOne.length) {
+        continue;
+      }
 
+      const shipAreaOne = axisOne.slice(indexOne === 0 ? indexOne : indexOne - 1, indexOne + shipSize + 1);
+
+      for (const b of shuffledAxisTwo) {
+        const indexTwo = axisTwo.indexOf(b);
+        const shipAreaTwo = axisTwo.slice(indexTwo === 0 ? indexTwo : indexTwo - 1, indexTwo + 1);
+
+        const allowPlacement = this.processExcludeCells(shipAreaOne, shipAreaTwo, b);
+
+        if (!allowPlacement) continue;
+
+        ship = axisOne.slice(indexOne, indexOne + shipSize);
+        this.addShipToBattlefield(ship, b);
         break;
       }
 
-      if (shipX) break;
+      if (ship) {
+        break;
+      }
     }
   }
 
-  placeXShip(y, x, shipSize) {
-    const xIndex = xAxis.indexOf(x);
-    const yIndex = yAxis.indexOf(y);
-
-    if (xIndex + shipSize > xAxis.length) {
-      return null;
-    }
-
-    const shipAreaX = xAxis.slice(xIndex === 0 ? xIndex : xIndex - 1, xIndex + shipSize + 1);
-    const shipAreaY = yAxis.slice(yIndex === 0 ? yIndex : yIndex - 1, yIndex + 1);
-
+  processExcludeCells(shipAreaOne, shipAreaTwo) {
     const excludedCells = [];
 
-    for (const yCoordinate of shipAreaY) {
-      for (const xCoordinate of shipAreaX) {
-        if (this.excludedCells.indexOf(`${yCoordinate}|${xCoordinate}`) !== -1) {
-          return null;
+    for (const a of shipAreaOne) {
+      for (const b of shipAreaTwo) {
+        if (
+          this.excludedCells.indexOf(`${a}|${b}`) !== -1
+          || this.excludedCells.indexOf(`${b}|${a}`) !== -1
+        ) {
+          return false;
         }
 
-        excludedCells.push(`${yCoordinate}|${xCoordinate}`);
+        excludedCells.push(`${a}|${b}`);
       }
     }
 
     this.excludedCells = this.excludedCells.concat(excludedCells);
 
-    return xAxis.slice(xIndex, xIndex + shipSize);
+    return true;
   }
 
+  addShipToBattlefield(ship, startCoordinate) {
+    let yCoordinate = null;
 
-  placeOnY(shiftedYAxis, xAxisShifted, ship) {
-    const shipSize = ship.cellsNumber;
-
-    for (const x of xAxisShifted) {
-      let shipY = null;
-      for (const y of shiftedYAxis) {
-        shipY = this.placeYShip(y, x, shipSize);
-
-        if (!shipY) continue;
-
-        for (const yCoordinate of shipY) {
-          this.battlefield[yCoordinate][x].status = cellStatuses.ALIVE;
-        }
-
-        break;
-      }
-
-      if (shipY) break;
+    if (this.battlefield[startCoordinate]) {
+      yCoordinate = startCoordinate;
     }
+
+    ship.forEach((coordinate) => {
+      const y = yCoordinate || coordinate;
+      const x = !yCoordinate ? startCoordinate : coordinate;
+
+      this.battlefield[y][x].status = cellStatuses.ALIVE;
+    });
   }
-
-  placeYShip(y, x, shipSize) {
-    const xIndex = xAxis.indexOf(x);
-    const yIndex = yAxis.indexOf(y);
-
-    if (yIndex + shipSize > yAxis.length) {
-      return null;
-    }
-
-    const shipAreaX = xAxis.slice(xIndex === 0 ? xIndex : xIndex - 1, xIndex + 1);
-    const shipAreaY = yAxis.slice(yIndex === 0 ? yIndex : yIndex - 1, yIndex + shipSize + 1);
-
-    const excludedCells = [];
-
-    for (const xCoordinate of shipAreaX) {
-      for (const yCoordinate of shipAreaY) {
-        if (this.excludedCells.indexOf(`${yCoordinate}|${xCoordinate}`) !== -1) {
-          return null;
-        }
-
-        excludedCells.push(`${yCoordinate}|${xCoordinate}`);
-      }
-    }
-
-    this.excludedCells = this.excludedCells.concat(excludedCells);
-
-    return yAxis.slice(yIndex, yIndex + shipSize);
-  }
-
 }
 
 export default new BattlefieldService();
